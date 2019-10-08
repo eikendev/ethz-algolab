@@ -22,6 +22,14 @@ double floor_to_double(const K::FT& x)
 	return a;
 }
 
+void print_point(const P& p)
+{
+	int64_t x = floor_to_double(p.x());
+	int64_t y = floor_to_double(p.y());
+
+	cout << x << " " << y << endl;
+}
+
 void process_testcase(uint32_t n)
 {
 	R target;
@@ -42,8 +50,25 @@ void process_testcase(uint32_t n)
 		P p2 = P(x2, y2);
 		S segment = S(p1, p2);
 
-		if (CGAL::do_intersect(target, segment))
+		if (found)
+			continue;
+
+		if (CGAL::do_intersect(target, segment)) {
 			segments.push_back(segment);
+
+			if (CGAL::do_intersect(target.source(), segment))
+				found = true;
+		}
+	}
+
+	if (found) {
+		print_point(target.source());
+		return;
+	}
+
+	if (segments.size() == 0) {
+		cout << "no" << endl;
+		return;
 	}
 
 	random_shuffle(segments.begin(), segments.end());
@@ -52,22 +77,21 @@ void process_testcase(uint32_t n)
 		S segment = segments[i];
 
 		if (found ? CGAL::do_intersect(best_segment, segment) : CGAL::do_intersect(target, segment)) {
+			P new_limit;
 			auto o = found ? CGAL::intersection(best_segment, segment) : CGAL::intersection(target, segment);
 
 			if (const P *new_intersection = boost::get<P>(&*o)) {
-				best_segment = S(target.source(), *new_intersection);
+				new_limit = *new_intersection;
 			} else if (const S *new_intersection = boost::get<S>(&*o)) {
-				K::FT ds = CGAL::squared_distance(new_intersection->source(), target.source());
-				K::FT dt = CGAL::squared_distance(new_intersection->target(), target.source());
-
-				if (ds < dt)
-					best_segment = S(target.source(), new_intersection->source());
+				if (CGAL::has_smaller_distance_to_point(target.source(), new_intersection->source(), new_intersection->target()))
+					new_limit = new_intersection->source();
 				else
-					best_segment = S(target.source(), new_intersection->target());
+					new_limit = new_intersection->target();
 			} else {
 				throw std::runtime_error("Invalid segment intersection.");
 			}
 
+			best_segment = S(target.source(), new_limit);
 			found = true;
 
 			if (best_segment.target() == target.source())
@@ -75,13 +99,7 @@ void process_testcase(uint32_t n)
 		}
 	}
 
-	if (found) {
-		int64_t x = floor_to_double(best_segment.target().x());
-		int64_t y = floor_to_double(best_segment.target().y());
-		cout << x << " " << y << endl;
-	} else {
-		cout << "no" << endl;
-	}
+	print_point(best_segment.target());
 }
 
 int main(int argc, char const *argv[])
