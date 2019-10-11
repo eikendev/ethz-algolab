@@ -22,7 +22,7 @@ double ceil_to_double(const K::FT& x)
 	return a;
 }
 
-void process_testcase(uint32_t n)
+void process_test(uint32_t n)
 {
 	vector<P> points(n);
 
@@ -66,7 +66,7 @@ int main(int argc, char const *argv[])
 	cin >> n;
 
 	while (n != 0) {
-		process_testcase(n);
+		process_test(n);
 		cin >> n;
 	}
 

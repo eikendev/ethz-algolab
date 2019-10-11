@@ -30,7 +30,7 @@ void print_point(const P& p)
 	cout << x << " " << y << endl;
 }
 
-void process_testcase(uint32_t n)
+void process_test(uint32_t n)
 {
 	R target;
 	vector<S> segments;
@@ -111,7 +111,7 @@ int main(int argc, char const *argv[])
 	cin >> n;
 
 	while (n != 0) {
-		process_testcase(n);
+		process_test(n);
 		cin >> n;
 	}
 

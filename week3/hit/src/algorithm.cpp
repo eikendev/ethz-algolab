@@ -10,7 +10,7 @@ typedef K::Segment_2 S;
 typedef K::Point_2 P;
 typedef K::Ray_2 R;
 
-void process_testcase(uint32_t n)
+void process_test(uint32_t n)
 {
 	R target;
 
@@ -51,7 +51,7 @@ int main(int argc, char const *argv[])
 	cin >> n;
 
 	while (n != 0) {
-		process_testcase(n);
+		process_test(n);
 		cin >> n;
 	}
 
