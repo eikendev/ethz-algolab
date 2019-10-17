@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void process_line(void)
+void process_test(void)
 {
 	int v1;
 	long long v2;
@@ -26,9 +26,8 @@ int main(int argc, char const *argv[])
 
 	cin >> t;
 
-	for (uint16_t i = 0; i < t; i++) {
-		process_line();
-	}
+	for (uint16_t i = 0; i < t; i++)
+		process_test();
 
 	return EXIT_SUCCESS;
 }

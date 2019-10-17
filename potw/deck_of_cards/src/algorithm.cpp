@@ -75,9 +75,8 @@ int main(int argc, char const *argv[])
 
 	cin >> t;
 
-	for (uint16_t i = 0; i < t; i++) {
+	for (uint16_t i = 0; i < t; i++)
 		process_test();
-	}
 
 	return EXIT_SUCCESS;
 }

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void process_addition(void)
+void process_test(void)
 {
 	uint16_t n;
 	int64_t result = 0;
@@ -28,9 +28,8 @@ int main(int argc, char const *argv[])
 
 	cin >> t;
 
-	for (uint16_t i = 0; i < t; i++) {
-		process_addition();
-	}
+	for (uint16_t i = 0; i < t; i++)
+		process_test();
 
 	return EXIT_SUCCESS;
 }

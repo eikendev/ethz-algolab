@@ -49,9 +49,8 @@ int main(int argc, char const *argv[])
 
 	cin >> t;
 
-	for (uint8_t i = 0; i < t; i++) {
+	for (uint8_t i = 0; i < t; i++)
 		process_test();
-	}
 
 	return EXIT_SUCCESS;
 }
