@@ -1,6 +1,5 @@
 #include <algorithm>
-#include <array>
-#include <cmath>
+#include <bitset>
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -16,39 +15,44 @@ static const auto BeverageCmp = [](const Beverage& a, const Beverage& b) {
 	return (double) a.cost / a.volume < (double) b.cost / b.volume;
 };
 
-typedef array<uint16_t, 100> Configuration;
+typedef bitset<100> Cart;
 
-static uint32_t best_cost;
-static uint16_t best_count;
+typedef struct {
+	uint32_t cost;
+	Cart cart;
+} CacheEntry;
 
-void cheapest_punch(vector<Beverage>& beverages, Configuration cart, uint16_t target, uint32_t volume, uint32_t cost, uint16_t count, uint16_t offset)
+typedef vector<CacheEntry> Cache;
+
+CacheEntry cheapest_punch(vector<Beverage>& beverages, Cache& cache, int32_t remaining)
 {
-	if (volume >= target) {
-		if (cost < best_cost)
-			best_count = count;
+	if (remaining <= 0)
+		return {0, 0};
 
-		best_count = max(best_count, count);
-		best_cost = min(best_cost, cost);
-		return;
-	}
+	if (cache[remaining].cost != 0)
+		return cache[remaining];
 
-	for (uint16_t i = offset; i < beverages.size(); i++) {
+	uint32_t best_cost = numeric_limits<uint32_t>::max();
+	Cart best_cart;
+
+	for (uint16_t i = 0; i < beverages.size(); i++) {
 		const Beverage& b = beverages[i];
 
-		int32_t padding;
-		padding = target - volume - b.volume;
-		padding = max(padding, (int32_t) 0);
-		padding = ceil(padding / (double) beverages[0].volume);
-		padding = padding * beverages[0].cost;
+		CacheEntry ce = cheapest_punch(beverages, cache, remaining - b.volume);
+		ce.cart[i] = 1;
 
- 	 	if (cost + b.cost + padding > best_cost)
- 	 		continue;
+		if (b.cost + ce.cost < best_cost)
+			best_cart = ce.cart;
+		else if (b.cost + ce.cost == best_cost)
+			best_cart = (best_cart.count() >= ce.cart.count()) ? best_cart : ce.cart;
 
-		uint16_t d = (cart[i] == 0) ? 1 : 0;
-		cart[i]++;
-		cheapest_punch(beverages, cart, target, volume + b.volume, cost + b.cost, count + d, i);
-		cart[i]--;
+		best_cost = min(best_cost, b.cost + ce.cost);
 	}
+
+	cache[remaining].cost = best_cost;
+	cache[remaining].cart = best_cart;
+
+	return cache[remaining];
 }
 
 void process_test(void)
@@ -68,14 +72,13 @@ void process_test(void)
 
 	sort(beverages.begin(), beverages.end(), BeverageCmp);
 
-	Configuration cart;
-	cart.fill(0);
-	best_cost = numeric_limits<uint32_t>::max();
-	best_count = numeric_limits<uint16_t>::max();
+	CacheEntry ce;
+	ce.cost = 0;
+	Cache cache(k + 1, ce);
 
-	cheapest_punch(beverages, cart, k, 0, 0, 0, 0);
+	cheapest_punch(beverages, cache, k);
 
-	cout << best_cost << " " << best_count << endl;
+	cout << cache[k].cost << " " << cache[k].cart.count() << endl;
 }
 
 int main(int argc, char const *argv[])
