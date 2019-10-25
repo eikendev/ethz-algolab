@@ -49,8 +49,8 @@ void process_test(void)
 	graph g(n + 2);
 	edge_adder adder(g);
 
-	const uint64_t v_s = n;
-	const uint64_t v_t = n + 1;
+	const vertex_desc v_s = n;
+	const vertex_desc v_t = n + 1;
 
 	adder.add_edge(v_s, 0, s);
 
