@@ -40,9 +40,6 @@ void process_test(uint32_t n)
 	cin >> x1 >> y1 >> x2 >> y2;
 	target = R(P(x1, y1), P(x2, y2));
 
-	S best_segment;
-	bool found = false;
-
 	for (uint32_t i = 0; i < n; i++) {
 		cin >> x1 >> y1 >> x2 >> y2;
 
@@ -50,20 +47,7 @@ void process_test(uint32_t n)
 		P p2 = P(x2, y2);
 		S segment = S(p1, p2);
 
-		if (found)
-			continue;
-
-		if (CGAL::do_intersect(target, segment)) {
-			segments.push_back(segment);
-
-			if (CGAL::do_intersect(target.source(), segment))
-				found = true;
-		}
-	}
-
-	if (found) {
-		print_point(target.source());
-		return;
+		segments.push_back(segment);
 	}
 
 	if (segments.size() == 0) {
@@ -73,12 +57,13 @@ void process_test(uint32_t n)
 
 	random_shuffle(segments.begin(), segments.end());
 
-	for (uint32_t i = 0; i < segments.size(); i++) {
-		S segment = segments[i];
+	S best;
+	bool found = false;
 
-		if (found ? CGAL::do_intersect(best_segment, segment) : CGAL::do_intersect(target, segment)) {
+	for (const auto& segment : segments) {
+		if (found ? CGAL::do_intersect(best, segment) : CGAL::do_intersect(target, segment)) {
 			P new_limit;
-			auto o = found ? CGAL::intersection(best_segment, segment) : CGAL::intersection(target, segment);
+			auto o = found ? CGAL::intersection(best, segment) : CGAL::intersection(target, segment);
 
 			if (const P *new_intersection = boost::get<P>(&*o)) {
 				new_limit = *new_intersection;
@@ -91,15 +76,18 @@ void process_test(uint32_t n)
 				throw std::runtime_error("Invalid segment intersection.");
 			}
 
-			best_segment = S(target.source(), new_limit);
+			best = S(target.source(), new_limit);
 			found = true;
 
-			if (best_segment.target() == target.source())
+			if (best.target() == target.source())
 				break;
 		}
 	}
 
-	print_point(best_segment.target());
+	if (found)
+		print_point(best.target());
+	else
+		cout << "no" << endl;
 }
 
 int main(int argc, char const *argv[])
