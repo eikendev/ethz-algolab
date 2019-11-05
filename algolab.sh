@@ -75,8 +75,7 @@ function compile_release() {
 
 case "$1" in
 	init)
-		printf "Creating CMake project...\t"
-
+		echo "Creating CMake project..."
 		echo "$pname" > .algolab
 
 		mkdir -p src
