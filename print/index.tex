@@ -1,0 +1,38 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman, english]{babel}
+
+\usepackage[left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage{microtype}
+\usepackage{nag}
+
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{listings}
+
+\lstdefinestyle{mystyle}{%
+	belowcaptionskip=1\baselineskip,
+	language=C++,
+	breaklines=true,
+	basicstyle=\scriptsize\ttfamily,
+	commentstyle=\itshape\color{Gray},
+	stringstyle=\color{Black},
+	keywordstyle=\bfseries\color{OliveGreen},
+	identifierstyle=\color{blue},
+	showstringspaces=false
+}
+
+\subject{Algorithms Lab}
+\title{Assessment 2 -- London}
+\author{Raphael Eikenberg}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\lstinputlisting[style=mystyle]{../week6/london/src/algorithm.cpp}
+
+\end{document}
