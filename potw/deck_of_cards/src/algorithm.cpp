@@ -67,7 +67,7 @@ end:
 	cout << best_start << " " << best_end << endl;
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	ios_base::sync_with_stdio(false);
 

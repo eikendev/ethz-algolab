@@ -80,7 +80,7 @@ void process_test(void)
 	print_array(finishing, n);
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	ios_base::sync_with_stdio(false);
 

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main(int argc, char const *argv[]) {
+int main(void) {
 	ios_base::sync_with_stdio(false);
 
 	cout << "Hello World!\n";

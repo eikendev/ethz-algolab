@@ -141,7 +141,7 @@ void process_test(void)
 	cout << count << endl;
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	ios_base::sync_with_stdio(false);
 

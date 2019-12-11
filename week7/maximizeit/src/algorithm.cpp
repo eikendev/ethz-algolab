@@ -88,7 +88,7 @@ void system2(int16_t a, int16_t b)
 	solve_program(lp, false, true);
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	ios_base::sync_with_stdio(false);
 

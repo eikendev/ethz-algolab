@@ -25,7 +25,7 @@ pair<int64_t, bool> dijkstra_dist(const weighted_graph &g, uint32_t s, uint32_t 
 	return {dist_map[t], found};
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	ios_base::sync_with_stdio(false);
 

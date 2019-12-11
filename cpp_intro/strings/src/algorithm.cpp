@@ -28,7 +28,7 @@ void process_line(void)
 	cout << reverse_swap(s1, s2) << endl;
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	ios_base::sync_with_stdio(false);
 

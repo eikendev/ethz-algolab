@@ -59,7 +59,7 @@ void process_test(uint16_t n, uint16_t m)
 		cout << "No such diet." << endl;
 }
 
-int main(int argc, char const *argv[])
+int main(void)
 {
 	ios_base::sync_with_stdio(false);
 
